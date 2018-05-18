@@ -24,5 +24,23 @@ window.wtool = {
                 }
             }
         }
+    },
+    /**
+     * produce a new array of values by mapping each value of the list
+     * @param  {} list
+     * @param  {} iteratee
+     * @param  {} context
+     */
+    map: function(list, iteratee, context) {
+        var res = [];
+        // use javascript origin function
+        if(list && list.map){
+            return list.map(iteratee, context);
+        }else{
+            wtool.each(list, function(currentValue, index, list) {
+                res.push(iteratee.call(context, currentValue, index, list));
+            }, context);
+        }       
+        return res;
     }
 }
