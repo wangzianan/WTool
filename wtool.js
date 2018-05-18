@@ -42,5 +42,39 @@ window.wtool = {
             }, context);
         }       
         return res;
+    },
+    /**
+     * reduce boils down a list of values into a single value
+     * @param  {} list
+     * @param  {} iteratee
+     * @param  {} memo
+     * @param  {} context
+     */
+    reduce: function (list, iteratee, memo, context) {
+        // use javascript origin function 1.8
+        // if(list && list.reduce){
+        //     return list.reduce(iteratee, memo);
+        // }else{
+
+        // }
+        // memo exists
+        if(typeof memo!='undefined'){
+            wtool.each(list, function(currentValue, index, list){
+                memo = iteratee.call(context, memo, currentValue, index, list);
+            }, context)
+        }else{          
+            var isFirst = true;
+            wtool.each(list, function(currentValue, index, list){                           
+                if(!isFirst){
+                    memo = iteratee.call(context, memo, currentValue, index, list);
+                }
+                // ignore first value
+                if(isFirst){
+                    memo = currentValue;
+                    isFirst = false;   
+                }                              
+            }, context)            
+        }
+        return memo;
     }
 }
